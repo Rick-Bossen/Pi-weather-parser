@@ -1,26 +1,24 @@
 package unwdmi.threads;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * This class represents a count tread.
- * The count tread keeps track of the amount of bytes currently in the stream waiting to be written.
+ * The count tread keeps track of the amount of bytes currently in the {@link ByteArrayOutputStream} waiting to be written.
  *
  * @author Rick
  * @author Martijn
  */
-public class CountTread implements Runnable {
+public class CountThread implements Runnable {
 
     private ByteArrayOutputStream stream;
 
     /**
-     * 
-     * @param stream
+     * Initializes new CountThread.
+     *
+     * @param stream The {@link ByteArrayOutputStream} to keep track of.
      */
-    public CountTread(ByteArrayOutputStream stream){
+    public CountThread(ByteArrayOutputStream stream){
         this.stream = stream;
     }
 
@@ -50,7 +48,6 @@ public class CountTread implements Runnable {
             }else {
                 lastGc++;
             }
-
         }
     }
 }

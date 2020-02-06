@@ -3,17 +3,29 @@ package unwdmi.threads;
 import unwdmi.helpers.MeasurementHelper;
 
 import java.io.*;
-import java.util.List;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * This class represents a producer thread.
+ * A producer thread receives XML data from a {@link Socket} and passes it to a {@link MeasurementHelper} for conversion,
+ * after which it adds it to the {@link ByteArrayOutputStream}.
+ *
+ * @author Rick
+ * @author Martijn
+ */
 public class ProducerThread implements Runnable {
 
     private Socket connection;
     private ByteArrayOutputStream stream;
 
 
+    /**
+     * Initializes a new ProducerThread.
+     *
+     * @param connection The {@link Socket} to receive data from.
+     * @param stream The {@link ByteArrayOutputStream} to add processed data to.
+     */
     public ProducerThread(Socket connection, ByteArrayOutputStream stream){
         this.connection = connection;
         this.stream = stream;
@@ -39,8 +51,6 @@ public class ProducerThread implements Runnable {
             }
         }catch (IOException ignored){}
         finally {
-
-//            System.err.println("Connection closed for local port: " + connection.getPort());
             try {
                 connection.close();
             } catch (IOException ignored) { }

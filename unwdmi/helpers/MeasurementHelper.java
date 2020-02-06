@@ -5,10 +5,17 @@ import unwdmi.Type;
 import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represents a measurement helper.
+ * It's purpose is to read an XML file and convert it to a byte array.
+ * Missing or incorrect values in the XML file are corrected using extrapolation.
+ *
+ * @author Rick
+ * @author Martijn
+ */
 public class MeasurementHelper {
 
     private ByteBuffer measurement;
@@ -21,7 +28,7 @@ public class MeasurementHelper {
     private String currentDate;
 
     /**
-     * Start new StringBuilder and loop through lines to gather values.
+     * Start new {@link StringBuilder} and loop through lines to gather values.
      *
      * @param lines Lines to decode.
      * @return Decoded XML string in sql value format. e.g. (value1, value2)
@@ -41,6 +48,12 @@ public class MeasurementHelper {
         return measurement.array();
     }
 
+    /**
+     * Converts a binary {@link String} consisting of 1's and 0's to a byte array.
+     *
+     * @param s {@link String} to be converted.
+     * @return Binary array of the given {@link String}.
+     */
     private byte[] decodeBinary(String s) {
         if (s.length() % 8 != 0) throw new IllegalArgumentException(
                 "Binary data length must be multiple of 8");
@@ -58,7 +71,7 @@ public class MeasurementHelper {
 
     /**
      * Parse the line based on the chars withing.
-     * Corrects wrong values.
+     * Corrects wrong or missing values.
      *
      * @param chars Chars of the line.
      */
@@ -116,7 +129,7 @@ public class MeasurementHelper {
             String time = currentDate + "_" + value.toString();
             try {
                 Date date = format.parse(time);
-                Integer timestamp = (int) (date.getTime()  / 1000);
+                int timestamp = (int) (date.getTime()  / 1000); // generate unix timestamp
                 measurement.put(ByteBuffer.allocate(4).putInt(timestamp).array());
             } catch (ParseException ex) {
                 ex.printStackTrace();
@@ -184,5 +197,4 @@ public class MeasurementHelper {
             }
         }
     }
-
 }

@@ -1,5 +1,8 @@
 package unwdmi;
 
+/**
+ * Possible types of data.
+ */
 public enum Type {
     TEMP (1, true, 1, true, 3),
     DEWP (1, true, 1, true, 3),
@@ -45,22 +48,36 @@ public enum Type {
         byteLength = b;
     }
 
+    /**
+     * @return The type.
+     */
     public int getType(){
         return type;
     }
 
+    /**
+     * @return The exponent.
+     */
     public int getExponent(){
         return exponent;
     }
 
+    /**
+     * @return Whether correction should be done or not.
+     */
     public boolean shouldCorrect(){
         return correction;
     }
 
+    /**
+     * @return Whether the type allows for negative values or not.
+     */
     public boolean allowsNegative(){
         return negative;
     }
 
+    /**
+     * @return The byte length of the type.
+     */
     public int getByteLength() {return byteLength;}
-
 }
